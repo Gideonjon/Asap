@@ -34,6 +34,12 @@
         <action
             android:id="@+id/action_createAccount_to_login"
             app:destination="@id/login" />
+        <action
+            android:id="@+id/action_createAccount_to_onboardingScreen"
+            app:destination="@id/onboardingScreen" />
+        <action
+            android:id="@+id/action_createAccount_to_personalInformation"
+            app:destination="@id/personalInformation" />
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -43,6 +49,9 @@
         <action
             android:id="@+id/action_login_to_forgetPassword"
             app:destination="@id/forgetPassword" />
+        <action
+            android:id="@+id/action_login_to_onboardingScreen"
+            app:destination="@id/onboardingScreen" />
     </fragment>
     <fragment
         android:id="@+id/forgetPassword"
@@ -53,4 +62,9 @@
             android:id="@+id/action_forgetPassword_to_login"
             app:destination="@id/login" />
     </fragment>
+    <fragment
+        android:id="@+id/personalInformation"
+        android:name="com.example.asap.PersonalInformation"
+        android:label="fragment_personal_information"
+        tools:layout="@layout/fragment_personal_information" />
 </navigation>
