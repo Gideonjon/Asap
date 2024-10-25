@@ -8,7 +8,6 @@ import android.view.ViewGroup
 
 
 class SplashScreen : Fragment() {
-  private
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
