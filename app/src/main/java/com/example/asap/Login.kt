@@ -77,6 +77,17 @@ class Login : Fragment() {
             }
         }
 
+        binding.forgotPassword.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_login_to_forgetPassword)
+
+        }
+
+        binding.arrowBack.setOnClickListener {
+            Navigation.findNavController(view)
+                .navigate(R.id.action_createAccount_to_onboardingScreen)
+
+        }
+
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(
