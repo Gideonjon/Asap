@@ -18,20 +18,39 @@
         android:id="@+id/onboardingScreen"
         android:name="com.example.asap.OnboardingScreen"
         android:label="fragment_onboarding_screen"
-        tools:layout="@layout/fragment_onboarding_screen" />
+        tools:layout="@layout/fragment_onboarding_screen" >
+        <action
+            android:id="@+id/action_onboardingScreen_to_createAccount"
+            app:destination="@id/createAccount" />
+        <action
+            android:id="@+id/action_onboardingScreen_to_login"
+            app:destination="@id/login" />
+    </fragment>
     <fragment
-        android:id="@+id/firstScreen"
-        android:name="com.example.asap.FirstScreen"
-        android:label="fragment_first_screen"
-        tools:layout="@layout/fragment_first_screen" />
+        android:id="@+id/createAccount"
+        android:name="com.example.asap.CreateAccount"
+        android:label="fragment_create_account"
+        tools:layout="@layout/fragment_create_account" >
+        <action
+            android:id="@+id/action_createAccount_to_login"
+            app:destination="@id/login" />
+    </fragment>
     <fragment
-        android:id="@+id/secondScreen"
-        android:name="com.example.asap.SecondScreen"
-        android:label="fragment_second_screen"
-        tools:layout="@layout/fragment_second_screen" />
+        android:id="@+id/login"
+        android:name="com.example.asap.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_forgetPassword"
+            app:destination="@id/forgetPassword" />
+    </fragment>
     <fragment
-        android:id="@+id/thirdScreen"
-        android:name="com.example.asap.ThirdScreen"
-        android:label="fragment_third_screen"
-        tools:layout="@layout/fragment_third_screen" />
+        android:id="@+id/forgetPassword"
+        android:name="com.example.asap.ForgetPassword"
+        android:label="fragment_forget_password"
+        tools:layout="@layout/fragment_forget_password" >
+        <action
+            android:id="@+id/action_forgetPassword_to_login"
+            app:destination="@id/login" />
+    </fragment>
 </navigation>
