@@ -1,4 +1,4 @@
-package com.example.asap
+package com.example.asap.fragment
 
 import android.os.Bundle
 import android.text.Editable
@@ -10,28 +10,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
-import com.example.asap.databinding.FragmentLoginBinding
+import com.example.asap.R
+import com.example.asap.databinding.FragmentCreateAccountBinding
 import com.google.firebase.auth.FirebaseAuth
 
 
-class Login : Fragment() {
-    private var _binding: FragmentLoginBinding? = null
+class CreateAccount : Fragment() {
+    private var _binding: FragmentCreateAccountBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
-
+    private lateinit var auth : FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
-
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentCreateAccountBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        auth = FirebaseAuth.getInstance()
-
         binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
+
+        auth = FirebaseAuth.getInstance()
 
         binding.getStarted.setOnClickListener {
 
@@ -50,37 +48,30 @@ class Login : Fragment() {
                 binding.password.error =
                     "Password must contain at least one uppercase letter, one lowercase letter, and one number"
             } else {
-
-                auth.signInWithEmailAndPassword(
-                    binding.emailEt.text.toString(),
-                    binding.passwordEt.text.toString()
+                auth.createUserWithEmailAndPassword(binding.emailEt.text.toString(),binding.passwordEt.text.toString()
                 )
-
                     .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Account Created,",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            Navigation.findNavController(view)
-                                .navigate(R.id.action_createAccount_to_personalInformation)
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "Account Not Created",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            if (it.isSuccessful) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Account Created,",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Navigation.findNavController(view)
+                                    .navigate(R.id.action_createAccount_to_personalInformation)
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Account Not Created",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
+
                     }
 
             }
-        }
 
-        binding.forgotPassword.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_login_to_forgetPassword)
-
-        }
 
         binding.arrowBack.setOnClickListener {
             Navigation.findNavController(view)
@@ -90,12 +81,7 @@ class Login : Fragment() {
 
 
         val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
 
             }
@@ -106,9 +92,7 @@ class Login : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {
 
-                if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.text.toString())
-                        .matches()
-                ) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.text.toString()).matches()) {
                     binding.email.error = "Incorrect Email"
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
                     binding.email.requestFocus()
@@ -164,6 +148,7 @@ class Login : Fragment() {
 
 
         return view
+
     }
 
 

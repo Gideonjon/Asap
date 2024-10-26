@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/brand_color"
-    tools:context=".SecondScreen">
+    tools:context=".onboarding.SecondScreen">
 
     <ImageView
         android:id="@+id/imageView"

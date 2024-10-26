@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreen"
-        android:name="com.example.asap.SplashScreen"
+        android:name="com.example.asap.fragment.SplashScreen"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingScreen"
-        android:name="com.example.asap.OnboardingScreen"
+        android:name="com.example.asap.fragment.OnboardingScreen"
         android:label="fragment_onboarding_screen"
         tools:layout="@layout/fragment_onboarding_screen" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccount"
-        android:name="com.example.asap.CreateAccount"
+        android:name="com.example.asap.fragment.CreateAccount"
         android:label="fragment_create_account"
         tools:layout="@layout/fragment_create_account" >
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/login"
-        android:name="com.example.asap.Login"
+        android:name="com.example.asap.fragment.Login"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgetPassword"
-        android:name="com.example.asap.ForgetPassword"
+        android:name="com.example.asap.fragment.ForgetPassword"
         android:label="fragment_forget_password"
         tools:layout="@layout/fragment_forget_password" >
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/personalInformation"
-        android:name="com.example.asap.PersonalInformation"
+        android:name="com.example.asap.fragment.PersonalInformation"
         android:label="fragment_personal_information"
         tools:layout="@layout/fragment_personal_information" />
 </navigation>
