@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+android:id="@+id/homeScreen"
+        android:icon="@drawable/home"
+        android:title="Home"/>
+    <item
+        android:id="@+id/transactions"
+        android:icon="@drawable/transaction"
+        android:title="Transaction"/>
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/profile"
+        android:title="Profile"/>
 
 </menu>

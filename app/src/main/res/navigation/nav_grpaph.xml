@@ -7,17 +7,19 @@
 
     <fragment
         android:id="@+id/homeScreen"
-        android:name="com.example.asap.HomeScreen"
+        android:name="com.example.asap.fragment.HomeScreen"
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen" />
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.asap.Profile"
+        android:name="com.example.asap.fragment.Profile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/card"
-        android:name="com.example.asap.Card"
-        android:label="fragment_card"
-        tools:layout="@layout/fragment_card" />
+        android:id="@+id/transactions"
+        android:name="com.example.asap.fragment.Transactions"
+        android:label="fragment_transactions"
+        tools:layout="@layout/fragment_transactions" />
+
+
 </navigation>
