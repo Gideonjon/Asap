@@ -20,6 +20,11 @@
         android:name="com.example.asap.fragment.Transactions"
         android:label="fragment_transactions"
         tools:layout="@layout/fragment_transactions" />
+    <fragment
+        android:id="@+id/send2"
+        android:name="com.example.asap.Send"
+        android:label="fragment_send"
+        tools:layout="@layout/fragment_send" />
 
 
 </navigation>

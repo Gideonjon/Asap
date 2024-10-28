@@ -23,6 +23,8 @@ class HomeScreen : Fragment() {
 
         binding.send.setOnClickListener {
 
+
+
         }
 
         binding.recieve.setOnClickListener {
@@ -31,6 +33,7 @@ class HomeScreen : Fragment() {
         }
 
         binding.bills.setOnClickListener {
+
 
 
         }
