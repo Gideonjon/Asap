@@ -5,14 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.asap.R
 import com.example.asap.adapter.TransactionAdapter
 import com.example.asap.databinding.FragmentTransactionsBinding
 import com.example.asap.utils.SendMoney
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 
 
@@ -31,21 +35,23 @@ class Transactions : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        _binding = FragmentTransactionsBinding.inflate(inflater,container,false)
+        _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         val view = binding.root
 
         auth = FirebaseAuth.getInstance()
         database = Firebase.database.reference.child("Transactions")
+
+        getUserData()
 
         return view
     }
 
     private fun getUserData() {
         userArrayList = mutableListOf()
-        taskAdapter = JobPostedAdapter(userArrayList)
+        taskAdapter = TransactionAdapter(userArrayList)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager =
-            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -55,7 +61,7 @@ class Transactions : Fragment() {
 
                     for (userSnapshot in snapshot.children) {
 
-                        val user = userSnapshot.getValue(JobsInfo::class.java)
+                        val user = userSnapshot.getValue(SendMoney::class.java)
 
                         if (user != null) {
                             userArrayList.add(user)
