@@ -84,7 +84,7 @@ class Login : Fragment() {
 
         binding.arrowBack.setOnClickListener {
             Navigation.findNavController(view)
-                .navigate(R.id.action_createAccount_to_onboardingScreen)
+                .navigate(R.id.action_login_to_onboardingScreen)
 
         }
 

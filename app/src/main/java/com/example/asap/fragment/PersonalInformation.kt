@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.asap.R
+import com.example.asap.activity.HomeActivity
 import com.example.asap.databinding.FragmentPersonalInformationBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -75,7 +76,7 @@ class PersonalInformation : Fragment() {
                         if (it.isSuccessful) {
 
                             showSnackbar("Details Saved Successfully")
-                            val intent = Intent(requireContext(),)
+                            val intent = Intent(requireContext(),HomeActivity::class.java)
                             activity?.startActivity(intent)
 
 
