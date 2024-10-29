@@ -11,5 +11,13 @@
     <string name="title_onboarding_3">Plan ahead and manage\nyour money better</string>
     <string name="description_onboarding_3">Setup your budget for each category\nso you in control.Track categories you\nspend the most money on</string>
 
+    <string-array name="BankName">
+        <item>Wema Bank</item>
+        <item>Access Bank</item>
+        <item>Opay</item>
+        <item>Palmpay</item>
+        <item>United Bank Of Africa</item>
+
+    </string-array>
 
 </resources>

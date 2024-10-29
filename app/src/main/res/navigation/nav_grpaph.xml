@@ -22,9 +22,13 @@
         tools:layout="@layout/fragment_transactions" />
     <fragment
         android:id="@+id/send2"
-        android:name="com.example.asap.Send"
+        android:name="com.example.asap.fragment.Send"
         android:label="fragment_send"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_send" >
+        <action
+            android:id="@+id/action_send2_to_homeScreen"
+            app:destination="@id/homeScreen" />
+    </fragment>
 
 
 </navigation>
