@@ -63,13 +63,18 @@ class Send : Fragment() {
             if (binding.accountNumberEt.text.toString().length == 10) {
                 Toast.makeText(requireContext(), "Account Number must be 10", Toast.LENGTH_LONG)
                     .show()
+            }
+            if (binding.amountEt.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Amount Cant be Empty", Toast.LENGTH_LONG)
+                    .show()
             } else {
                 val bankName = binding.bankName.text.toString()
                 val accountNumber = binding.accountNumberEt.text.toString()
+                val amount = binding.amountEt.text.toString()
                 val remark = binding.remark.text.toString()
 
                 val jobPosted =
-                    SendMoney(bankName, accountNumber,remark)
+                    SendMoney(bankName, accountNumber,amount,remark)
 
                 databaseReference.push().setValue(jobPosted).addOnCompleteListener {
                     if (it.isSuccessful) {
