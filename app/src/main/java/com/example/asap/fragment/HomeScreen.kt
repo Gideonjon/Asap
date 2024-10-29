@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import com.example.asap.R
 import com.example.asap.databinding.FragmentHomeScreenBinding
 
 
@@ -22,7 +24,7 @@ class HomeScreen : Fragment() {
         val view = binding.root
 
         binding.send.setOnClickListener {
-
+            Navigation.findNavController(view).navigate(R.id.action_homeScreen_to_send2)
 
 
         }
@@ -33,7 +35,6 @@ class HomeScreen : Fragment() {
         }
 
         binding.bills.setOnClickListener {
-
 
 
         }
