@@ -102,41 +102,18 @@ class CreateAccount : Fragment() {
             override fun afterTextChanged(s: Editable?) {
 
                 if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.text.toString()).matches()) {
-                    binding.email.error = "Incorrect Email"
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
-                    binding.email.requestFocus()
-                } else {
-                    binding.email.error = "Correct Email"
-                    binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
-
                 }
                 if (binding.passwordEt.text.toString().length < 8) {
-                    binding.password.error = "Password must be at least 8 characters"
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
-                    binding.password.requestFocus()
-                } else {
-                    binding.password.error = "8 digits complete"
-                    binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
-
                 }
                 if (!binding.passwordEt.text.toString().contains(
                         Regex("(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])")
                     )
                 ) {
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
-                    binding.password.error =
-                        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-                } else {
-                    binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
-                    binding.password.error =
-                        "Password Is Strong"
 
-                }
-                if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.text.toString())
-                        .matches() && binding.passwordEt.text.toString().length < 8
-                    && binding.passwordEt.text.toString()
-                        .contains(Regex("(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])"))
-                ) {
+                } else {
 
                     binding.getStarted.setBackgroundResource(R.drawable.sign_up_btn)
                 }
@@ -159,6 +136,7 @@ class CreateAccount : Fragment() {
         return view
 
     }
+
     private fun showProgressBar() {
         binding.progressBar.visibility = View.VISIBLE
         val color = ContextCompat.getColor(

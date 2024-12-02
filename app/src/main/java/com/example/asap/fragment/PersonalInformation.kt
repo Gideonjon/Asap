@@ -2,11 +2,13 @@ package com.example.asap.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.asap.R
 import com.example.asap.activity.HomeActivity
@@ -48,7 +50,7 @@ class PersonalInformation : Fragment() {
                 binding.userName.error = "Input Error"
                 binding.userName.requestFocus()
             } else {
-
+                showProgressBar()
                 val sharedPreferences =
                     activity?.getSharedPreferences("info", Context.MODE_PRIVATE)
                 val editor = sharedPreferences?.edit()
@@ -76,13 +78,13 @@ class PersonalInformation : Fragment() {
                         if (it.isSuccessful) {
 
                             showSnackbar("Details Saved Successfully")
-                            val intent = Intent(requireContext(),HomeActivity::class.java)
+                            val intent = Intent(requireContext(), HomeActivity::class.java)
                             activity?.startActivity(intent)
 
 
                         } else {
-                            if (!it.isSuccessful)
-                                showSnackbar("Details Not Saved, Try Again!")
+                            hideProgressBar()
+                            showSnackbar("Details Not Saved, Try Again!")
                         }
 
                     }
@@ -102,5 +104,24 @@ class PersonalInformation : Fragment() {
         Snackbar.make(rootView, message, Snackbar.LENGTH_LONG).show()
         Snackbar.ANIMATION_MODE_SLIDE
     }
+
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+        val color = ContextCompat.getColor(
+            requireContext(),
+            R.color.brand_color
+        )
+
+        binding.progressBar.indeterminateDrawable.setColorFilter(
+            color,
+            PorterDuff.Mode.SRC_IN
+        )
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
+    }
+
 
 }

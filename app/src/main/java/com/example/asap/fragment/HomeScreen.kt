@@ -44,8 +44,7 @@ class HomeScreen : Fragment() {
         val uid = auth.currentUser?.uid
         databaseReference = FirebaseDatabase.getInstance().getReference("Transactions")
 
-
-
+        binding.balance.text = getBalanceLocally().toString()
         updateBalanceDisplay()
 
         binding.send.setOnClickListener {
@@ -102,10 +101,11 @@ class HomeScreen : Fragment() {
             val enteredAmount = input.text.toString().toDoubleOrNull()
 
             if (enteredAmount != null && enteredAmount > 0) {
+                showProgressBar()
                 if (enteredAmount <= balance) {
-                    showProgressBar()
                     // Deduct amount and update balance
                     balance -= enteredAmount
+                    saveBalanceLocally(balance)
                     updateBalanceDisplay()
                     val amount = enteredAmount
 
@@ -174,6 +174,25 @@ class HomeScreen : Fragment() {
 
     private fun hideProgressBar() {
         binding.progressBar.visibility = View.GONE
+    }
+
+    private fun saveBalanceLocally(balance: Double) {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putFloat("user_balance", balance.toFloat())
+        editor.apply()
+    }
+
+    private fun getBalanceLocally(): Double {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getFloat("user_balance", 500000.0f).toDouble()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
