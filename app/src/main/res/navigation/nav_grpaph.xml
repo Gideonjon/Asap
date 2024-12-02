@@ -9,11 +9,7 @@
         android:id="@+id/homeScreen"
         android:name="com.example.asap.fragment.HomeScreen"
         android:label="fragment_home_screen"
-        tools:layout="@layout/fragment_home_screen" >
-        <action
-            android:id="@+id/action_homeScreen_to_send2"
-            app:destination="@id/send2" />
-    </fragment>
+        tools:layout="@layout/fragment_home_screen" />
     <fragment
         android:id="@+id/profile"
         android:name="com.example.asap.fragment.Profile"
@@ -24,15 +20,6 @@
         android:name="com.example.asap.fragment.Transactions"
         android:label="fragment_transactions"
         tools:layout="@layout/fragment_transactions" />
-    <fragment
-        android:id="@+id/send2"
-        android:name="com.example.asap.fragment.Send"
-        android:label="fragment_send"
-        tools:layout="@layout/fragment_send" >
-        <action
-            android:id="@+id/action_send2_to_homeScreen"
-            app:destination="@id/homeScreen" />
-    </fragment>
 
 
 </navigation>

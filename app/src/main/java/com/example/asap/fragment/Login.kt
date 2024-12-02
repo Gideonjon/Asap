@@ -1,16 +1,21 @@
 package com.example.asap.fragment
 
+import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.asap.R
+import com.example.asap.activity.HomeActivity
 import com.example.asap.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -30,6 +35,8 @@ class Login : Fragment() {
         val view = binding.root
 
         auth = FirebaseAuth.getInstance()
+        binding.passwordEt.filters = arrayOf(InputFilter.LengthFilter(8))
+
 
         binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
 
@@ -38,7 +45,7 @@ class Login : Fragment() {
             if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.text.toString()).matches()) {
                 binding.email.error = "Invalid Email"
             }
-            if (binding.passwordEt.text.toString().length == 8) {
+            if (binding.passwordEt.text.toString().length < 8) {
 
                 binding.password.error = "Password must be at least 8 characters"
             }
@@ -50,6 +57,7 @@ class Login : Fragment() {
                 binding.password.error =
                     "Password must contain at least one uppercase letter, one lowercase letter, and one number"
             } else {
+                showProgressBar()
 
                 auth.signInWithEmailAndPassword(
                     binding.emailEt.text.toString(),
@@ -60,15 +68,17 @@ class Login : Fragment() {
                         if (it.isSuccessful) {
                             Toast.makeText(
                                 requireContext(),
-                                "Account Created,",
+                                "Welcome Back,",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            Navigation.findNavController(view)
-                                .navigate(R.id.action_createAccount_to_personalInformation)
+                            val intent = Intent(requireContext(), HomeActivity::class.java)
+                            activity?.startActivity(intent)
+
                         } else {
+                            hideProgressBar()
                             Toast.makeText(
                                 requireContext(),
-                                "Account Not Created",
+                                "Login Failed",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -117,7 +127,7 @@ class Login : Fragment() {
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
 
                 }
-                if (binding.passwordEt.text.toString().length == 8) {
+                if (binding.passwordEt.text.toString().length < 8) {
                     binding.password.error = "Password must be at least 8 characters"
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
                     binding.password.requestFocus()
@@ -136,11 +146,11 @@ class Login : Fragment() {
                 } else {
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
                     binding.password.error =
-                        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+                        "Password Is Strong"
 
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.text.toString())
-                        .matches() && binding.passwordEt.text.toString().length == 8
+                        .matches() && binding.passwordEt.text.toString().length < 8
                     && binding.passwordEt.text.toString()
                         .contains(Regex("(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])"))
                 ) {
@@ -166,5 +176,22 @@ class Login : Fragment() {
         return view
     }
 
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+        val color = ContextCompat.getColor(
+            requireContext(),
+            R.color.brand_color
+        )
+
+        binding.progressBar.indeterminateDrawable.setColorFilter(
+            color,
+            PorterDuff.Mode.SRC_IN
+        )
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
+    }
 
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
@@ -12,15 +13,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation
 import com.example.asap.R
 import com.example.asap.databinding.FragmentHomeScreenBinding
+import com.example.asap.utils.SendMoney
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class HomeScreen : Fragment() {
     private var _binding: FragmentHomeScreenBinding? = null
     private val binding get() = _binding!!
     private var balance: Double = 500000.0 // Initial user balance
+    private lateinit var auth: FirebaseAuth
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +39,11 @@ class HomeScreen : Fragment() {
 
         _binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        auth = FirebaseAuth.getInstance()
+        val uid = auth.currentUser?.uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("Transactions")
+
 
 
         updateBalanceDisplay()
@@ -89,19 +103,35 @@ class HomeScreen : Fragment() {
 
             if (enteredAmount != null && enteredAmount > 0) {
                 if (enteredAmount <= balance) {
+                    showProgressBar()
                     // Deduct amount and update balance
                     balance -= enteredAmount
                     updateBalanceDisplay()
-                    Toast.makeText(
-                        requireContext(),
-                        "₦$enteredAmount sent successfully!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val amount = enteredAmount
+
+                    val jobPosted =
+                        SendMoney(amount.toString())
+
+                    databaseReference.push().setValue(jobPosted).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            showSnackbar("Funds Sent Successfully")
+
+                        }
+                    }.addOnFailureListener {
+                        hideProgressBar()
+
+                        showSnackbar("Funds Not Sent")
+
+                    }
+
+
                 } else {
+                    hideProgressBar()
                     Toast.makeText(requireContext(), "Insufficient balance!", Toast.LENGTH_SHORT)
                         .show()
                 }
             } else {
+                hideProgressBar()
                 Toast.makeText(requireContext(), "Invalid amount entered!", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -109,7 +139,8 @@ class HomeScreen : Fragment() {
             dialog.dismiss()
         }
 
-        builder.setNegativeButton("Cancel") { dialog, _ ->
+        builder.setNegativeButton("Cancel")
+        { dialog, _ ->
             dialog.cancel()
         }
 
@@ -119,6 +150,30 @@ class HomeScreen : Fragment() {
     private fun updateBalanceDisplay() {
         // Update the displayed balance
         binding.balance.text = "₦ ${String.format("%,.2f", balance)}"
+    }
+
+    private fun showSnackbar(message: String) {
+        val rootView = binding.root
+        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.ANIMATION_MODE_SLIDE
+    }
+
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+        val color = ContextCompat.getColor(
+            requireContext(),
+            R.color.brand_color
+        )
+
+        binding.progressBar.indeterminateDrawable.setColorFilter(
+            color,
+            PorterDuff.Mode.SRC_IN
+        )
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
     }
 
 }

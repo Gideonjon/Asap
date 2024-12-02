@@ -13,9 +13,7 @@ class TransactionAdapter(private val list: MutableList<SendMoney>) :
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val bankName: TextView = itemView.findViewById(R.id.bankName)
-        val bankNumber: TextView = itemView.findViewById(R.id.accountName)
-        val description: TextView = itemView.findViewById(R.id.description)
+
         val amount: TextView = itemView.findViewById(R.id.amount)
 
 
@@ -40,10 +38,8 @@ class TransactionAdapter(private val list: MutableList<SendMoney>) :
 
         val currentItem = list[position]
 
-        holder.bankName.text = currentItem.bankName
-        holder.bankNumber.text = currentItem.accountNumber
+
         holder.amount.text = currentItem.amount
-        holder.description.text = currentItem.reason
 
 
     }

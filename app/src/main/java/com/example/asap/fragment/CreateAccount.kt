@@ -1,7 +1,9 @@
 package com.example.asap.fragment
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Patterns
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation
 import com.example.asap.R
 import com.example.asap.databinding.FragmentCreateAccountBinding
@@ -18,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 class CreateAccount : Fragment() {
     private var _binding: FragmentCreateAccountBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth : FirebaseAuth
+    private lateinit var auth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,6 +29,8 @@ class CreateAccount : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentCreateAccountBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        binding.passwordEt.filters = arrayOf(InputFilter.LengthFilter(8))
 
         binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
 
@@ -36,7 +41,7 @@ class CreateAccount : Fragment() {
             if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.text.toString()).matches()) {
                 binding.email.error = "Invalid Email"
             }
-            if (binding.passwordEt.text.toString().length == 8) {
+            if (binding.passwordEt.text.toString().length < 8) {
 
                 binding.password.error = "Password must be at least 8 characters"
             }
@@ -48,29 +53,33 @@ class CreateAccount : Fragment() {
                 binding.password.error =
                     "Password must contain at least one uppercase letter, one lowercase letter, and one number"
             } else {
-                auth.createUserWithEmailAndPassword(binding.emailEt.text.toString(),binding.passwordEt.text.toString()
+                showProgressBar()
+
+                auth.createUserWithEmailAndPassword(
+                    binding.emailEt.text.toString(), binding.passwordEt.text.toString()
                 )
                     .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Account Created,",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                Navigation.findNavController(view)
-                                    .navigate(R.id.action_createAccount_to_personalInformation)
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Account Not Created",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                        if (it.isSuccessful) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Account Created,",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            Navigation.findNavController(view)
+                                .navigate(R.id.action_createAccount_to_personalInformation)
+                        } else {
+                            hideProgressBar()
+                            Toast.makeText(
+                                requireContext(),
+                                "Account Not Created",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-
                     }
 
             }
+
+        }
 
 
         binding.arrowBack.setOnClickListener {
@@ -101,7 +110,7 @@ class CreateAccount : Fragment() {
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
 
                 }
-                if (binding.passwordEt.text.toString().length == 8) {
+                if (binding.passwordEt.text.toString().length < 8) {
                     binding.password.error = "Password must be at least 8 characters"
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
                     binding.password.requestFocus()
@@ -120,11 +129,11 @@ class CreateAccount : Fragment() {
                 } else {
                     binding.getStarted.setBackgroundResource(R.drawable.btn_deep_btn)
                     binding.password.error =
-                        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+                        "Password Is Strong"
 
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.text.toString())
-                        .matches() && binding.passwordEt.text.toString().length == 8
+                        .matches() && binding.passwordEt.text.toString().length < 8
                     && binding.passwordEt.text.toString()
                         .contains(Regex("(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])"))
                 ) {
@@ -149,6 +158,23 @@ class CreateAccount : Fragment() {
 
         return view
 
+    }
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+        val color = ContextCompat.getColor(
+            requireContext(),
+            R.color.brand_color
+        )
+
+        binding.progressBar.indeterminateDrawable.setColorFilter(
+            color,
+            PorterDuff.Mode.SRC_IN
+        )
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
     }
 
 
